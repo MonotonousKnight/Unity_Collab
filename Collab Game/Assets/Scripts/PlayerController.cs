@@ -20,9 +20,11 @@ public class PlayerController : MonoBehaviour
     const string Idle_Right = "Idle Animation Right";
     const string Idle_Left = "Idle Animation Left";
     const string Idle_Back = "Idle Animation Back";
+    const string Idle_Front = "Idle Animation Front";
     const string Move_Right = "Move Right Animation";
     const string Move_Left = "Move Left Animation";
     const string Move_Back = "Move Back Animation";
+    const string Move_Forward = "Move Forward Animation";
 
     string currentDirection;
 
@@ -63,7 +65,7 @@ public class PlayerController : MonoBehaviour
             if (currentDirection == "Right") ChangeAnimationState(Idle_Right);
             if (currentDirection == "Left") ChangeAnimationState(Idle_Left);
             if (currentDirection == "Up") ChangeAnimationState(Idle_Back);
-            if (currentDirection == "Down") ChangeAnimationState(Idle_Right);
+            if (currentDirection == "Down") ChangeAnimationState(Idle_Front);
         }
         else if (inputHorizontal > 0)
         { ChangeAnimationState(Move_Right); currentDirection = "Right"; }
@@ -72,7 +74,7 @@ public class PlayerController : MonoBehaviour
         { ChangeAnimationState(Move_Left); currentDirection = "Left"; }
 
         else if (inputVertical < 0)
-        { ChangeAnimationState(Move_Right); currentDirection = "Down"; }
+        { ChangeAnimationState(Move_Forward); currentDirection = "Down"; }
 
         else if (inputVertical > 0)
         { ChangeAnimationState(Move_Back); currentDirection = "Up"; }
