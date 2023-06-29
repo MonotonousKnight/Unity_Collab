@@ -9,10 +9,12 @@ public class PlayerController : MonoBehaviour
     Vector2 moveDirection;
 
     //player
-    float walkSpeed = 4f;
+    float runspeed = 6f;
+    float walkSpeed = 3f;
     float speedLimiter = 0.7f;
     float inputHorizontal;
     float inputVertical;
+    float sprint;
 
     // Anmiations and states
     Animator animator;
@@ -54,30 +56,41 @@ public class PlayerController : MonoBehaviour
         inputVertical = Input.GetAxisRaw("Vertical");
 
         moveDirection = new Vector2(inputHorizontal, inputVertical).normalized;
+
     }
 
     public void Move()
     {
         rb.velocity = new Vector2(moveDirection.x * walkSpeed, moveDirection.y * walkSpeed);
 
-        if (inputHorizontal == 0 && inputVertical == 0)
+
+        if (inputHorizontal > 0)
         {
-            if (currentDirection == "Right") ChangeAnimationState(Idle_Right);
-            if (currentDirection == "Left") ChangeAnimationState(Idle_Left);
-            if (currentDirection == "Up") ChangeAnimationState(Idle_Back);
-            if (currentDirection == "Down") ChangeAnimationState(Idle_Front);
+            currentDirection = "Right";
+            if (inputHorizontal > 3) ChangeAnimationState(Move_Right);
+            else ChangeAnimationState(Idle_Right);
         }
-        else if (inputHorizontal > 0)
-        { ChangeAnimationState(Move_Right); currentDirection = "Right"; }
 
         else if (inputHorizontal < 0)
-        { ChangeAnimationState(Move_Left); currentDirection = "Left"; }
-
+        {
+            currentDirection = "Left";
+            if(inputHorizontal < -3) ChangeAnimationState(Move_Left);
+            else ChangeAnimationState(Idle_Left);
+        }
+        
         else if (inputVertical < 0)
-        { ChangeAnimationState(Move_Forward); currentDirection = "Down"; }
+        {
+            currentDirection = "Down";
+            if (inputVertical < -3) ChangeAnimationState(Move_Forward);
+            else ChangeAnimationState(Idle_Front);
+        }
 
         else if (inputVertical > 0)
-        { ChangeAnimationState(Move_Back); currentDirection = "Up"; }
+        {
+            currentDirection = "Up";
+            if (inputVertical > 3) ChangeAnimationState(Move_Back);
+            else ChangeAnimationState(Idle_Back);
+        }
     }
 
     // Animation State Changer
